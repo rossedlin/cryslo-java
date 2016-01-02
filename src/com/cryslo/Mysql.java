@@ -11,29 +11,69 @@ import java.util.List;
  */
 public class Mysql
 {
+    public static final String DEFAULT_IP = "localhost";
+    public static final int DEFAULT_PORT = 3306;
 
     private String ip;
+    private int port;
     private String username;
     private String password;
     private String database;
 
-    public Mysql(String ip, String username, String password, String database)
+    /**
+     * Full set of config
+     *
+     * @param ip
+     * @param port
+     * @param username
+     * @param password
+     * @param database
+     */
+    public Mysql(String ip, int port, String username, String password, String database)
     {
-        this(ip, username, password);
+        setIp(ip);
+        setPort(port);
+        setUsername(username);
+        setPassword(password);
         setDatabase(database);
     }
 
-    public Mysql(String ip, String username, String password)
+    /**
+     * Partial set of config
+     *
+     * @param ip
+     * @param username
+     * @param password
+     * @param database
+     */
+    public Mysql(String ip, String username, String password, String database)
     {
-        setIp(ip);
-        setUsername(username);
-        setPassword(password);
+        this(ip, DEFAULT_PORT, username, password, database);
     }
 
+    /**
+     * Partial set of config
+     *
+     * @param username
+     * @param password
+     * @param database
+     */
+    public Mysql(String username, String password, String database)
+    {
+        this(DEFAULT_IP, DEFAULT_PORT, username, password, database);
+    }
+
+    /**
+     * Query the DB
+     *
+     * @param sql An SQL statement
+     * @return
+     */
     public List query(String sql)
     {
         //just check we're all good before running any SQL
-        if (getIp() == null) return new ArrayList();
+        if (getIp() == null) setIp(DEFAULT_IP);
+        if (getPort() <= 0) setPort(DEFAULT_PORT);
         if (getUsername() == null) return new ArrayList();
         if (getPassword() == null) return new ArrayList();
         if (getDatabase() == null) return new ArrayList();
@@ -50,7 +90,7 @@ public class Mysql
         try
         {
             //build the SQL url
-            String url = "jdbc:mysql://" + getIp() + ":3306/" + getDatabase();
+            String url = "jdbc:mysql://" + getIp() + ":" + getPort() + "/" + getDatabase();
 
             //run the SQl commands
             con = DriverManager.getConnection(url, getUsername(), getPassword());
@@ -66,7 +106,7 @@ public class Mysql
                 rsmd = rs.getMetaData();
                 row.setTotalColumns(rsmd.getColumnCount());
 
-                //loop through each column and buld a Row Object
+                //loop through each column and build a Row Object
                 for (int i=1; i <= rsmd.getColumnCount(); i++)
                 {
                     String val = rs.getString(i);
@@ -90,7 +130,7 @@ public class Mysql
         }
         catch (SQLException ex)
         {
-            Cli.write("Ex: "+ex.getMessage());
+            Cli.write("SQL Exception: " + ex.getMessage());
         }
 
         return rows;
@@ -110,6 +150,16 @@ public class Mysql
     public void setIp(String ip)
     {
         this.ip = ip;
+    }
+
+    public int getPort()
+    {
+        return port;
+    }
+
+    public void setPort(int port)
+    {
+        this.port = port;
     }
 
     public String getUsername()
