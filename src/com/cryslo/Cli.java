@@ -5,13 +5,21 @@ package com.cryslo;
  */
 public class Cli
 {
+    /**
+     *
+     * @param num Will print out to the system an integer
+     */
     public static void write(int num)
     {
         write(Integer.toString(num));
     }
 
-    public static void write(String msg)
+    /**
+     *
+     * @param str Will print out to the system a string
+     */
+    public static void write(String str)
     {
-        System.out.println(msg);
+        System.out.println(str);
     }
 }
