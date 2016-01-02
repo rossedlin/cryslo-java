@@ -1,8 +1,12 @@
 package com.cryslo;
 
-public class Main {
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Cli.write("hello world");
 
-    public static void main(String[] args) {
-	// write your code here
+        Mysql mysql =  new Mysql();
+        mysql.query("SELECT * FROM cry_product");
     }
 }
