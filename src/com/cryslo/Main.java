@@ -19,7 +19,7 @@ public class Main
 //            Cli.write(row.getTotalColumns());
             Cli.write(row.get("product_id"));
             Cli.write(row.get("name"));
-            Cli.write(row.get("desc1"));
+            Cli.write(row.get(1));
         }
     }
 }
