@@ -62,11 +62,21 @@ public class Mysql
             {
                 row = new Row();
 
-                //loop through each column and buld a Row Object
+                //set some init data in row
                 rsmd = rs.getMetaData();
+                row.setTotalColumns(rsmd.getColumnCount());
+
+                //loop through each column and buld a Row Object
                 for (int i=1; i <= rsmd.getColumnCount(); i++)
                 {
-                    row.add(rsmd.getColumnName(i), rs.getString(i));
+                    String val = rs.getString(i);
+                    if (rs.wasNull()) //gotta do it this way, because you've got to pull the value and store it in "val" before you can check if it's null
+                    {
+                        row.add(rsmd.getColumnName(i), "");
+                        continue;
+                    }
+
+                    row.add(rsmd.getColumnName(i), val);
                 }
 
                 //add the row object to our rows list

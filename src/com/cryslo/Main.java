@@ -16,8 +16,10 @@ public class Main
         for (int i=0; i < rows.size(); i++)
         {
             Row row = (Row) rows.get(i);
+//            Cli.write(row.getTotalColumns());
             Cli.write(row.get("product_id"));
             Cli.write(row.get("name"));
+            Cli.write(row.get("desc1"));
         }
     }
 }

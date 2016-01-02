@@ -6,13 +6,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by ross on 02/01/2016.
+ * Created by Ross Edlin on 02/01/2016.
  */
 public class Row
 {
-    int i = 0;
+    int totalColumns = 0;
+    int column = 0;
     Map<String, Integer> indexMap = new HashMap<String, Integer>();
     List row = new ArrayList();
+
+    public int getTotalColumns()
+    {
+        return totalColumns;
+    }
+
+    public void setTotalColumns(int totalColumns)
+    {
+        this.totalColumns = totalColumns;
+    }
 
     /**
      *
@@ -21,9 +32,9 @@ public class Row
      */
     public void add(String index, String value)
     {
-        this.indexMap.put(index , i);
-        this.row.add(i, value);
-        this.i++;
+        this.indexMap.put(index , column);
+        this.row.add(column, value);
+        this.column++;
     }
 
     /**
